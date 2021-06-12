@@ -1,22 +1,27 @@
 package org.jyoshiriro.pocs.marsexplorer.model;
 
+
+import java.util.Arrays;
+
 public enum Direction {
 
-    N("North", "E", "W", 0, 1),
-    S("South", "W", "E", 0, -1),
-    W("West", "N", "S", -1, 0),
-    E("East", "S", "N", 1, 0);
+    N("North", 0, 1),
+    S("South", 0, -1),
+    W("West", -1, 0),
+    E("East", 1, 0);
+
+    private static final Direction[] DIRECTIONS_CLOCK_WISE = {N, E, S, W};
 
     private final String description;
-    private final String toTheRight;
-    private final String toTheLeft;
     private final int increaseX;
     private final int increaseY;
 
-    Direction(String description, String toTheRight, String toTheLeft, int increaseX, int increaseY) {
+    private Integer currentPosition;
+    private Direction toTheRight;
+    private Direction toTheLeft;
+
+    Direction(String description, int increaseX, int increaseY) {
         this.description = description;
-        this.toTheRight = toTheRight;
-        this.toTheLeft = toTheLeft;
         this.increaseX = increaseX;
         this.increaseY = increaseY;
     }
@@ -26,11 +31,36 @@ public enum Direction {
     }
 
     public Direction getToTheRight() {
-        return valueOf(toTheRight);
+        if (this.toTheRight == null) {
+            createToTheRight();
+        }
+        return toTheRight;
     }
 
     public Direction getToTheLeft() {
-        return valueOf(toTheLeft);
+        if (this.toTheLeft == null) {
+            createToTheLeft();
+        }
+        return toTheLeft;
+    }
+
+    private void createToTheRight() {
+        int currentPosition = getCurrentPositionAtClockWise();
+        int positionForRight = (currentPosition < DIRECTIONS_CLOCK_WISE.length - 1) ? currentPosition + 1 : 0;
+        this.toTheRight = DIRECTIONS_CLOCK_WISE[positionForRight];
+    }
+
+    private void createToTheLeft() {
+        int currentPosition = getCurrentPositionAtClockWise();
+        int positionForLeft =  (currentPosition > 0) ? currentPosition - 1 : DIRECTIONS_CLOCK_WISE.length - 1;
+        this.toTheLeft = DIRECTIONS_CLOCK_WISE[positionForLeft];
+    }
+    
+    private int getCurrentPositionAtClockWise() {
+        if (currentPosition == null) {
+            currentPosition = Arrays.asList(DIRECTIONS_CLOCK_WISE).indexOf(this);
+        }
+        return this.currentPosition;
     }
 
     public int getIncreaseX() {

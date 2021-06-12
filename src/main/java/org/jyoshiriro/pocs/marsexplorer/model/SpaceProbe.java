@@ -1,13 +1,13 @@
 package org.jyoshiriro.pocs.marsexplorer.model;
 
-public class Position {
+public class SpaceProbe {
 
     private int x;
     private int y;
     private Direction direction;
     private Plan plan;
 
-    public Position(int x, int y, Direction direction, Plan plan) {
+    public SpaceProbe(int x, int y, Direction direction, Plan plan) {
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -76,46 +76,41 @@ public class Position {
         return plan;
     }
 
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                ", direction=" + direction +
+                '}';
+    }
+
     public static void main(String[] args) {
-        Position p = new Position(5,5, Direction.N, new Plan(5,5));
+        Plan plan = new Plan(5, 5);
 
-        p.move(Movement.R);
-        p.move(Movement.R);
-        p.move(Movement.R);
-        p.move(Movement.R);
+        SpaceProbe pos1 = new SpaceProbe(1,2, Direction.N, plan);
+        pos1.move(Movement.L);
+        pos1.move(Movement.M);
+        pos1.move(Movement.L);
+        pos1.move(Movement.M);
+        pos1.move(Movement.L);
+        pos1.move(Movement.M);
+        pos1.move(Movement.L);
+        pos1.move(Movement.M);
+        pos1.move(Movement.M);
+        System.out.println(pos1);
 
-        p.move(Movement.L);
-        p.move(Movement.L);
-        p.move(Movement.L);
-        p.move(Movement.L);
-
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-
-        p.move(Movement.R);
-
-        p.move(Movement.M);
-        p.move(Movement.M);
-
-        p.move(Movement.R);
-
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-
-        p.move(Movement.R);
-
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
-        p.move(Movement.M);
+        SpaceProbe pos2 = new SpaceProbe(3,3, Direction.E, plan);
+        pos2.move(Movement.M);
+        pos2.move(Movement.M);
+        pos2.move(Movement.R);
+        pos2.move(Movement.M);
+        pos2.move(Movement.M);
+        pos2.move(Movement.R);
+        pos2.move(Movement.M);
+        pos2.move(Movement.R);
+        pos2.move(Movement.R);
+        pos2.move(Movement.M);
+        System.out.println(pos2);
     }
 }
