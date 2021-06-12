@@ -65,6 +65,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+
+				<!-- ./mvnw spring-boot:build-image -->
+				<configuration>
+					<image>
+						<name>jyoshiriro/mars-explorer</name>
+					</image>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
