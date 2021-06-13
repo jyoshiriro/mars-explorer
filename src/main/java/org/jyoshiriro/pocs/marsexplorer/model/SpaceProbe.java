@@ -1,5 +1,7 @@
 package org.jyoshiriro.pocs.marsexplorer.model;
 
+import org.jyoshiriro.pocs.marsexplorer.exception.BoundaryReachedException;
+
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -37,33 +39,48 @@ public class SpaceProbe {
         int formerX = this.positionX;
         int formerY = this.positionY;
 
-        this.positionX += getActualXIncreasing();
+        this.positionX += getActualXIncrease();
         this.positionY += getActualYIncreasing();
 
         return formerX != this.positionX || formerY != this.positionY;
     }
 
-    public int getActualXIncreasing() {
-        int increasing = this.direction.getIncreaseX();
-        if (increasing > 0) {
-            return (increasing + this.positionX <= this.plane.getWidth()) ? increasing : 0;
+    public int getActualXIncrease() {
+        int increase = this.direction.getIncreaseX();
+        if (increase == 0) {
+            return 0;
+        } else if (increase < 0) {
+            return getActualDecrease(this.positionX, increase);
+        } else if (increase + this.positionX <= this.plane.getWidth()) {
+            return increase;
         }
-        return getActualDecreasing(this.positionX, increasing);
+
+        throw newLocalBoundaryReachedException();
     }
 
     public int getActualYIncreasing() {
         int increasing = this.direction.getIncreaseY();
-        if (increasing > 0) {
-            return (increasing + this.positionY <= this.plane.getHeight()) ? increasing : 0;
+        if (increasing == 0) {
+            return 0;
+        } else if (increasing < 0) {
+            return getActualDecrease(this.positionY, increasing);
+        } else if (increasing + this.positionY <= this.plane.getHeight()) {
+            return increasing;
         }
-        return getActualDecreasing(this.positionY, increasing);
+
+        throw newLocalBoundaryReachedException();
     }
 
-    private int getActualDecreasing(int currentValue, int decreasing) {
+    private int getActualDecrease(int currentValue, int decreasing) {
         if (decreasing < 0 && currentValue == 0) {
-            return 0;
+            throw newLocalBoundaryReachedException();
         }
         return decreasing;
+    }
+
+    private BoundaryReachedException newLocalBoundaryReachedException() {
+        return new BoundaryReachedException(
+                this.plane, this.positionX + this.direction.getIncreaseX(), this.positionY+this.direction.getIncreaseY());
     }
 
     public int getPositionX() {
@@ -118,5 +135,11 @@ public class SpaceProbe {
         pos2.move(Movement.R);
         pos2.move(Movement.M);
         System.out.println(pos2);
+
+
+        SpaceProbe pos3 = new SpaceProbe(0,5, Direction.W, plane);
+        pos3.move(Movement.M);
+        System.out.println(pos3);
+
     }
 }
