@@ -1,7 +1,7 @@
 package org.jyoshiriro.pocs.marsexplorer.model;
 
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
 public class SpaceProbe {
 
@@ -10,7 +10,7 @@ public class SpaceProbe {
     private Direction direction;
     private Plane plane;
 
-    Map<Movement, Supplier<Void>> movementsMap;
+    private Map<Movement, Consumer<Void>> movementsMap;
 
     public SpaceProbe(int positionX, int positionY, Direction direction, Plane plane) {
         this.positionX = positionX;
@@ -18,19 +18,10 @@ public class SpaceProbe {
         this.direction = direction;
         this.plane = plane;
 
-        movementsMap = Map.of(
-                Movement.R, () -> {
-                                setDirection(getDirection().getToTheRight());
-                                return null;
-                            },
-                Movement.L, () -> {
-                                setDirection(getDirection().getToTheLeft());
-                                return null;
-                            },
-                Movement.M, () -> {
-                                walk();
-                                return null;
-                            }
+        this.movementsMap = Map.of(
+                Movement.R, p -> setDirection(getDirection().getToTheRight()),
+                Movement.L, p -> setDirection(getDirection().getToTheLeft()),
+                Movement.M, p -> walk()
         );
     }
 
@@ -39,7 +30,7 @@ public class SpaceProbe {
     }
 
     public void move(Movement movement) {
-        movementsMap.get(movement).get();
+        this.movementsMap.get(movement).accept(null);
     }
 
     private boolean walk() {
