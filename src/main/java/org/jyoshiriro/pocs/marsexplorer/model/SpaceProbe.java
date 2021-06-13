@@ -1,56 +1,71 @@
 package org.jyoshiriro.pocs.marsexplorer.model;
 
+import java.util.Map;
+import java.util.function.Supplier;
+
 public class SpaceProbe {
 
-    private int x;
-    private int y;
+    private int positionX;
+    private int positionY;
     private Direction direction;
-    private Plan plan;
+    private Plane plane;
 
-    public SpaceProbe(int x, int y, Direction direction, Plan plan) {
-        this.x = x;
-        this.y = y;
+    Map<Movement, Supplier<Void>> movementsMap;
+
+    public SpaceProbe(int positionX, int positionY, Direction direction, Plane plane) {
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.direction = direction;
-        this.plan = plan;
+        this.plane = plane;
+
+        movementsMap = Map.of(
+                Movement.R, () -> {
+                                setDirection(getDirection().getToTheRight());
+                                return null;
+                            },
+                Movement.L, () -> {
+                                setDirection(getDirection().getToTheLeft());
+                                return null;
+                            },
+                Movement.M, () -> {
+                                walk();
+                                return null;
+                            }
+        );
     }
 
-    public boolean move(Movement movement) {
-        switch (movement) {
-            case R:
-                direction = direction.getToTheRight();
-                return true;
-            case L:
-                direction = direction.getToTheLeft();
-                return true;
-            default:
-                return walk();
-        }
+    private void setDirection(Direction newDirection) {
+        this.direction = newDirection;
+    }
+
+    public void move(Movement movement) {
+        movementsMap.get(movement).get();
     }
 
     private boolean walk() {
-        int formerX = this.x;
-        int formerY = this.y;
+        int formerX = this.positionX;
+        int formerY = this.positionY;
 
-        this.x += getActualXIncreasing();
-        this.y += getActualYIncreasing();
+        this.positionX += getActualXIncreasing();
+        this.positionY += getActualYIncreasing();
 
-        return formerX != this.x || formerY != this.y;
+        return formerX != this.positionX || formerY != this.positionY;
     }
 
     public int getActualXIncreasing() {
         int increasing = this.direction.getIncreaseX();
         if (increasing > 0) {
-            return (increasing + this.x <= this.plan.getWidth()) ? increasing : 0;
+            return (increasing + this.positionX <= this.plane.getWidth()) ? increasing : 0;
         }
-        return getActualDecreasing(this.x, increasing);
+        return getActualDecreasing(this.positionX, increasing);
     }
 
     public int getActualYIncreasing() {
         int increasing = this.direction.getIncreaseY();
         if (increasing > 0) {
-            return (increasing + this.y <= this.plan.getHeight()) ? increasing : 0;
+            return (increasing + this.positionY <= this.plane.getHeight()) ? increasing : 0;
         }
-        return getActualDecreasing(this.y, increasing);
+        return getActualDecreasing(this.positionY, increasing);
     }
 
     private int getActualDecreasing(int currentValue, int decreasing) {
@@ -60,35 +75,35 @@ public class SpaceProbe {
         return decreasing;
     }
 
-    public int getX() {
-        return x;
+    public int getPositionX() {
+        return positionX;
     }
 
-    public int getY() {
-        return y;
+    public int getPositionY() {
+        return positionY;
     }
 
     public Direction getDirection() {
         return direction;
     }
 
-    public Plan getPlan() {
-        return plan;
+    public Plane getPlane() {
+        return plane;
     }
 
     @Override
     public String toString() {
         return "Position{" +
-                "x=" + x +
-                ", y=" + y +
+                "x=" + positionX +
+                ", y=" + positionY +
                 ", direction=" + direction +
                 '}';
     }
 
     public static void main(String[] args) {
-        Plan plan = new Plan(5, 5);
+        Plane plane = new Plane(5, 5);
 
-        SpaceProbe pos1 = new SpaceProbe(1,2, Direction.N, plan);
+        SpaceProbe pos1 = new SpaceProbe(1,2, Direction.N, plane);
         pos1.move(Movement.L);
         pos1.move(Movement.M);
         pos1.move(Movement.L);
@@ -100,7 +115,7 @@ public class SpaceProbe {
         pos1.move(Movement.M);
         System.out.println(pos1);
 
-        SpaceProbe pos2 = new SpaceProbe(3,3, Direction.E, plan);
+        SpaceProbe pos2 = new SpaceProbe(3,3, Direction.E, plane);
         pos2.move(Movement.M);
         pos2.move(Movement.M);
         pos2.move(Movement.R);
