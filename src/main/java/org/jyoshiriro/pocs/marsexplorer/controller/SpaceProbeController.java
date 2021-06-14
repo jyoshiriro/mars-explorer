@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jyoshiriro.pocs.marsexplorer.model.SpaceProbe;
 import org.jyoshiriro.pocs.marsexplorer.service.PlaneService;
 import org.jyoshiriro.pocs.marsexplorer.service.SpaceProbeService;
@@ -18,6 +19,10 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("probes")
+@Tag(
+    name = "II - Space probes",
+    description = "Create, move, delete or retrieve space probes"
+)
 public class SpaceProbeController {
 
     private SpaceProbeService spaceProbeService;
@@ -30,7 +35,8 @@ public class SpaceProbeController {
     }
 
     @PostMapping
-    @Operation(description = "Register a space probe in the plane")
+    @Operation(description =
+            "Register a space probe in the plane. The plane must to be already registered! See <b>POST /plane</b>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created"),
             @ApiResponse(responseCode = "400", description = "The plane has not been been defined yet")
