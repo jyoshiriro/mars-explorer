@@ -9,11 +9,11 @@ public class BoundaryReachedException extends RuntimeException {
 
     private String boudaryMessage;
 
-    public BoundaryReachedException(Plane plane, int positionX, int positionY) {
-        boudaryMessage = (positionX >= 0 && positionY >= 0)
-                ? String.format(
-            "Plane (%d,%d) can't accept position (%d,%d)", plane.getWidth(), plane.getHeight(), positionX, positionY)
-                : String.format("X and Y should be 0 or positive. Actual X: %d. Actual Y: %d", positionX, positionY);
+    public BoundaryReachedException(Plane plane, int intendedX, int intendedY) {
+        boudaryMessage = (intendedX >= 0 && intendedY >= 0)
+                ? String.format("Plane '%d x %d' can't accept a coordinate (%d,%d)",
+                                plane.getWidth(), plane.getHeight(), intendedX, intendedY)
+                : String.format("X and Y should be 0 or positive. Actual X: %d. Actual Y: %d", intendedX, intendedY);
     }
 
     @Override

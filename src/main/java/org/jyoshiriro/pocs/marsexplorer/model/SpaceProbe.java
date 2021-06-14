@@ -1,26 +1,36 @@
 package org.jyoshiriro.pocs.marsexplorer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jyoshiriro.pocs.marsexplorer.exception.BoundaryReachedException;
+import org.jyoshiriro.pocs.marsexplorer.exception.PlaneNotDefinedException;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class SpaceProbe {
 
-    private int positionX;
-    private int positionY;
+    @PositiveOrZero
+    @JsonProperty("x")
+    private int coordinateX;
+
+    @PositiveOrZero
+    @JsonProperty("y")
+    private int coordinateY;
+
+    @NotNull
     private Direction direction;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Plane plane;
 
-    private Map<Movement, Consumer<Void>> movementsMap;
+    @JsonIgnore
+    private final Map<Movement, Consumer<Void>> movementsMap;
 
-    public SpaceProbe(int positionX, int positionY, Direction direction, Plane plane) {
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.direction = direction;
-        this.plane = plane;
-
-        this.movementsMap = Map.of(
+    public SpaceProbe() {
+        movementsMap = Map.of(
                 Movement.R, p -> setDirection(getDirection().getToTheRight()),
                 Movement.L, p -> setDirection(getDirection().getToTheLeft()),
                 Movement.M, p -> walk()
@@ -32,39 +42,47 @@ public class SpaceProbe {
     }
 
     public void move(Movement movement) {
-        this.movementsMap.get(movement).accept(null);
+        if (plane == null) {
+            throw new PlaneNotDefinedException();
+        }
+        movementsMap.get(movement).accept(null);
     }
 
-    private boolean walk() {
-        int formerX = this.positionX;
-        int formerY = this.positionY;
+    public void setPlane(Plane plane) {
+        if (coordinateX > plane.getWidth() || coordinateY > plane.getHeight()) {
+            throw new BoundaryReachedException(plane, coordinateX, coordinateY);
+        }
 
-        this.positionX += getActualXIncrease();
-        this.positionY += getActualYIncreasing();
-
-        return formerX != this.positionX || formerY != this.positionY;
+        this.plane = plane;
     }
 
-    public int getActualXIncrease() {
-        int increase = this.direction.getIncreaseX();
+    private void walk() {
+        coordinateX += getActualXIncrease();
+        coordinateY += getActualYIncreasing();
+    }
+
+    private int getActualXIncrease() {
+        int increase = direction.getIncreaseX();
+
         if (increase == 0) {
             return 0;
         } else if (increase < 0) {
-            return getActualDecrease(this.positionX, increase);
-        } else if (increase + this.positionX <= this.plane.getWidth()) {
+            return getActualDecrease(coordinateX, increase);
+        } else if (increase + coordinateX <= plane.getWidth()) {
             return increase;
         }
 
         throw newLocalBoundaryReachedException();
     }
 
-    public int getActualYIncreasing() {
-        int increasing = this.direction.getIncreaseY();
+    private int getActualYIncreasing() {
+        int increasing = direction.getIncreaseY();
+
         if (increasing == 0) {
             return 0;
         } else if (increasing < 0) {
-            return getActualDecrease(this.positionY, increasing);
-        } else if (increasing + this.positionY <= this.plane.getHeight()) {
+            return getActualDecrease(coordinateY, increasing);
+        } else if (increasing + coordinateY <= plane.getHeight()) {
             return increasing;
         }
 
@@ -72,7 +90,7 @@ public class SpaceProbe {
     }
 
     private int getActualDecrease(int currentValue, int decreasing) {
-        if (decreasing < 0 && currentValue == 0) {
+        if (currentValue == 0 && decreasing < 0) {
             throw newLocalBoundaryReachedException();
         }
         return decreasing;
@@ -80,15 +98,15 @@ public class SpaceProbe {
 
     private BoundaryReachedException newLocalBoundaryReachedException() {
         return new BoundaryReachedException(
-                this.plane, this.positionX + this.direction.getIncreaseX(), this.positionY+this.direction.getIncreaseY());
+                plane, coordinateX + direction.getIncreaseX(), coordinateY + direction.getIncreaseY());
     }
 
-    public int getPositionX() {
-        return positionX;
+    public int getCoordinateX() {
+        return coordinateX;
     }
 
-    public int getPositionY() {
-        return positionY;
+    public int getCoordinateY() {
+        return coordinateY;
     }
 
     public Direction getDirection() {
@@ -98,12 +116,12 @@ public class SpaceProbe {
     public Plane getPlane() {
         return plane;
     }
-
+/*
     @Override
     public String toString() {
-        return "Position{" +
-                "x=" + positionX +
-                ", y=" + positionY +
+        return "{" +
+                "x=" + coordinateX +
+                ", y=" + coordinateY +
                 ", direction=" + direction +
                 '}';
     }
@@ -141,5 +159,5 @@ public class SpaceProbe {
         pos3.move(Movement.M);
         System.out.println(pos3);
 
-    }
+    }*/
 }

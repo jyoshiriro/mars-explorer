@@ -1,14 +1,14 @@
 package org.jyoshiriro.pocs.marsexplorer.model;
 
+import javax.validation.constraints.Positive;
+
 public class Plane {
 
-    private final int width;
-    private final int height;
+    @Positive
+    private int width;
 
-    public Plane(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
+    @Positive
+    private int height;
 
     public int getWidth() {
         return width;
