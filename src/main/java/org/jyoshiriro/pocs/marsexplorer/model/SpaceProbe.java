@@ -2,6 +2,7 @@ package org.jyoshiriro.pocs.marsexplorer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.jyoshiriro.pocs.marsexplorer.exception.BoundaryReachedException;
 import org.jyoshiriro.pocs.marsexplorer.exception.PlaneNotDefinedException;
 
@@ -13,10 +14,12 @@ import java.util.function.Consumer;
 public class SpaceProbe {
 
     @PositiveOrZero
+    @NotNull
     @JsonProperty("x")
     private int coordinateX;
 
     @PositiveOrZero
+    @NotNull
     @JsonProperty("y")
     private int coordinateY;
 
@@ -24,6 +27,7 @@ public class SpaceProbe {
     private Direction direction;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Hidden
     private Plane plane;
 
     @JsonIgnore

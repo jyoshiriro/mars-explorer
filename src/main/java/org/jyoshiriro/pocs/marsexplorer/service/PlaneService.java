@@ -1,6 +1,7 @@
 package org.jyoshiriro.pocs.marsexplorer.service;
 
 import org.jyoshiriro.pocs.marsexplorer.exception.PlaneAlreadyDefinedException;
+import org.jyoshiriro.pocs.marsexplorer.exception.PlaneNotDefinedException;
 import org.jyoshiriro.pocs.marsexplorer.model.Plane;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class PlaneService {
     }
 
     public void update(Plane plane) {
+        if (this.plane == null) {
+            throw new PlaneNotDefinedException();
+        }
         this.plane = plane;
     }
 
