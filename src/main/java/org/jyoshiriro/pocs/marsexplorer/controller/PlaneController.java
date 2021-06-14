@@ -3,6 +3,7 @@ package org.jyoshiriro.pocs.marsexplorer.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jyoshiriro.pocs.marsexplorer.model.Plane;
 import org.jyoshiriro.pocs.marsexplorer.service.PlaneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,11 @@ import javax.validation.Valid;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
-@RequestMapping("planes")
+@RequestMapping("plane")
+@Tag(
+    name = "I - Plane",
+    description = "Create, update or retrieve the plane"
+)
 public class PlaneController {
 
     @Autowired
