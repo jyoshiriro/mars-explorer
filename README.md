@@ -3,7 +3,7 @@
 Welcome to Yoshi's Mars Explorer! Have fun!
 
 ## API documentation
-API doc at **http://localhost:8080/swagger-ui/index.html** 
+API doc at **http://localhost:8080/swagger-ui.html** 
 
 ## Running
 
