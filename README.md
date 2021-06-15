@@ -7,7 +7,7 @@ API doc at **http://localhost:8080/swagger-ui.html**
 
 ## Requests collection for Insomnia/Postman
 
-Get from GitHub [here](src/main/resources/static/rest-clients/mars-explorer.json)
+Get from GitHub **[here](src/main/resources/static/rest-clients/mars-explorer.json)**
 
 Get from API at **http://localhost:8080/rest-clients/mars-explorer.json**  
 
@@ -18,6 +18,7 @@ Get from API at **http://localhost:8080/rest-clients/mars-explorer.json**
 
 ### Local Docker
 docker build -t jyoshiriro/mars-explorer .
+
 docker run -p 8080:8080 -t jyoshiriro/mars-explorer
 
 ### Docker Hub
