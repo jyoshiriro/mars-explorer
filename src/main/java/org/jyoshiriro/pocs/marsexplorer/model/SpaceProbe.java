@@ -41,6 +41,15 @@ public class SpaceProbe {
         );
     }
 
+    public SpaceProbe(@PositiveOrZero @NotNull int coordinateX,
+                      @PositiveOrZero @NotNull int coordinateY,
+                      @NotNull Direction direction) {
+        this();
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.direction = direction;
+    }
+
     private void setDirection(Direction newDirection) {
         this.direction = newDirection;
     }

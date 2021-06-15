@@ -13,6 +13,11 @@ public class Plane {
     @NotNull
     private int height;
 
+    public Plane(@Positive @NotNull int width, @Positive @NotNull int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     public int getWidth() {
         return width;
     }
