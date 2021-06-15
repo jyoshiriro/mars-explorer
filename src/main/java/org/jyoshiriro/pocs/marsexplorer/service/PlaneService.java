@@ -10,8 +10,6 @@ import java.util.Optional;
 @Service
 public class PlaneService {
 
-    // public static final String PLANE_NOT_FOUND_ERROR = "Plane is not valid";
-
     private Plane plane;
 
     public void create(Plane plane) {
@@ -25,12 +23,8 @@ public class PlaneService {
         if (this.plane == null) {
             throw new PlaneNotDefinedException();
         }
-        this.plane = plane;
-    }
 
-    public boolean isValid(Plane plane) {
-        return this.plane.getWidth() == plane.getWidth()
-                && this.plane.getHeight() == plane.getHeight();
+        this.plane = plane;
     }
 
     public boolean hasPlane() {
