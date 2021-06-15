@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.jyoshiriro.pocs.marsexplorer.exception.BoundaryReachedException;
 import org.jyoshiriro.pocs.marsexplorer.exception.PlaneNotDefinedException;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SpaceProbeTest {
 
@@ -41,6 +40,33 @@ class SpaceProbeTest {
         for (Movement movement : Movement.values()) {
             assertThrows(PlaneNotDefinedException.class,
                     () -> new SpaceProbe(2, 2, Direction.N).move(movement));
+        }
+    }
+
+
+    @Test
+    void moveShouldTurnRightCorrectly() {
+        Plane plane = new Plane(5, 5);
+
+        for (Direction direction : Direction.values()) {
+            SpaceProbe spaceProbe = new SpaceProbe(2, 2, direction);
+            spaceProbe.setPlane(plane);
+
+            spaceProbe.move(Movement.R);
+            assertEquals(direction.getToTheRight(), spaceProbe.getDirection());
+        }
+    }
+
+    @Test
+    void moveShouldTurnLeftCorrectly() {
+        Plane plane = new Plane(5, 5);
+
+        for (Direction direction : Direction.values()) {
+            SpaceProbe spaceProbe = new SpaceProbe(2, 2, direction);
+            spaceProbe.setPlane(plane);
+
+            spaceProbe.move(Movement.L);
+            assertEquals(direction.getToTheLeft(), spaceProbe.getDirection());
         }
     }
 }
