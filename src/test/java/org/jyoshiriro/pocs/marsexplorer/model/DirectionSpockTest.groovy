@@ -10,7 +10,10 @@ class DirectionSpockTest extends Specification {
 
     def 'All toTheRight and ToTheLeft should be valid'() {
         when:
-        directions.each { it.getToTheRight() }
+        directions.each {
+            it.getToTheRight()
+            it.getToTheLeft()
+        }
 
         then:
         noExceptionThrown()
@@ -22,9 +25,9 @@ class DirectionSpockTest extends Specification {
 
         then:
         verifyAll {
-            directions.each {
-                assert validNumbers.contains(it.getIncreaseX())
-                assert validNumbers.contains(it.getIncreaseY())
+            for (direction in directions) {
+                validNumbers.contains(direction.getIncreaseX())
+                validNumbers.contains(direction.getIncreaseY())
             }
         }
     }
