@@ -47,14 +47,14 @@ public class SpaceProbeController {
     }
 
     @PostMapping("{id}/move/{movements}")
-    @Operation(description = "Move a space probe on the plane")
+    @Operation(description = "Move a space probe on the plane. Current space probe data comes in response")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Movement done"),
-            @ApiResponse(responseCode = "404", description = "No space probe found for provided id"),
-            @ApiResponse(responseCode = "400",
-                    description = "The plane has not been been defined yet OR One of the movements is not valid")
+        @ApiResponse(responseCode = "200", description = "Movement done. Current space probe data comes in response"),
+        @ApiResponse(responseCode = "404", description = "No space probe found for provided id"),
+        @ApiResponse(responseCode = "400",
+                        description = "The plane has not been been defined yet OR One of the movements is not valid")
     })
-    public ResponseEntity<Void> moveSpaceProbe(
+    public ResponseEntity<SpaceProbe> moveSpaceProbe(
             @Parameter(description = "Space probe identifier") @PathVariable int id,
 
             @Parameter(
@@ -63,7 +63,7 @@ public class SpaceProbeController {
             )
             @PathVariable String movements) {
         spaceProbeService.move(id, movements);
-        return ok().build();
+        return ok().body(spaceProbeService.findById(id).get());
     }
 
     @GetMapping
