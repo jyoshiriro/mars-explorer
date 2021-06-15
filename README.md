@@ -3,7 +3,11 @@
 Welcome to Yoshi's Mars Explorer! Have fun!
 
 ## API documentation
-API doc at **http://localhost:8080/swagger-ui.html** 
+API doc at **http://localhost:8080/swagger-ui.html**
+
+## Requests collection for Insomnia/Postman
+
+[Download here](src/main/resources/static/rest-clients/mars-explorer.json)  
 
 ## Running
 
