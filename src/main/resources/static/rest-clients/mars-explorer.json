@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"width\": 10,\n    \"height\": 10\n}",
+					"raw": "{\n    \"width\": 5,\n    \"height\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -59,7 +59,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"width\": 99,\n    \"height\": 99\n}",
+					"raw": "{\n    \"width\": 10,\n    \"height\": 10\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -123,7 +123,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/probes/1/move/M",
+					"raw": "http://localhost:8080/probes/1/move/LMLMLMLMM",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -133,7 +133,7 @@
 						"probes",
 						"1",
 						"move",
-						"M"
+						"LMLMLMLMM"
 					]
 				}
 			},
