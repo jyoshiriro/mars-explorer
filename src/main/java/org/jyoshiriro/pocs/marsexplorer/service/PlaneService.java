@@ -16,6 +16,7 @@ public class PlaneService {
         if (this.plane != null) {
             throw new PlaneAlreadyDefinedException();
         }
+
         this.plane = plane;
     }
 

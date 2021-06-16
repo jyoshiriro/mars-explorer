@@ -129,48 +129,5 @@ public class SpaceProbe {
     public Plane getPlane() {
         return plane;
     }
-/*
-    @Override
-    public String toString() {
-        return "{" +
-                "x=" + coordinateX +
-                ", y=" + coordinateY +
-                ", direction=" + direction +
-                '}';
-    }
 
-    public static void main(String[] args) {
-        Plane plane = new Plane(5, 5);
-
-        SpaceProbe pos1 = new SpaceProbe(1,2, Direction.N, plane);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.M);
-        System.out.println(pos1);
-
-        SpaceProbe pos2 = new SpaceProbe(3,3, Direction.E, plane);
-        pos2.move(Movement.M);
-        pos2.move(Movement.M);
-        pos2.move(Movement.R);
-        pos2.move(Movement.M);
-        pos2.move(Movement.M);
-        pos2.move(Movement.R);
-        pos2.move(Movement.M);
-        pos2.move(Movement.R);
-        pos2.move(Movement.R);
-        pos2.move(Movement.M);
-        System.out.println(pos2);
-
-
-        SpaceProbe pos3 = new SpaceProbe(0,5, Direction.W, plane);
-        pos3.move(Movement.M);
-        System.out.println(pos3);
-
-    }*/
 }
