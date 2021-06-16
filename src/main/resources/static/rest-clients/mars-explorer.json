@@ -113,15 +113,6 @@
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"x\": 1,\n    \"y\": 2,\n    \"direction\": \"N\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost:8080/probes/1/move/LMLMLMLMM",
 					"protocol": "http",
