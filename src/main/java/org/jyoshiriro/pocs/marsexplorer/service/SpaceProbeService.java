@@ -34,8 +34,7 @@ public class SpaceProbeService {
 
         List<Movement> validMovements = new ArrayList<>();
 
-        String[] letters = movements.split("");
-        for (String letter : letters) {
+        for (String letter : movements.split("")) {
             try {
                 validMovements.add(Movement.valueOf(letter));
             } catch (IllegalArgumentException e) {
