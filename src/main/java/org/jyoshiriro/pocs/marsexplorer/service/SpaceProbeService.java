@@ -4,7 +4,6 @@ import org.jyoshiriro.pocs.marsexplorer.exception.InvalidMovementException;
 import org.jyoshiriro.pocs.marsexplorer.exception.MarsExplorerEntityNotFoundException;
 import org.jyoshiriro.pocs.marsexplorer.exception.PlaneNotDefinedException;
 import org.jyoshiriro.pocs.marsexplorer.model.Movement;
-import org.jyoshiriro.pocs.marsexplorer.model.Plane;
 import org.jyoshiriro.pocs.marsexplorer.model.SpaceProbe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,26 @@ public class SpaceProbeService {
     private List<SpaceProbe> spaceProbes = new ArrayList<>();
 
     public void create(SpaceProbe newSpaceProbe) {
-        Optional<Plane> planeOptional = planeService.getPlane();
-        if (planeOptional.isEmpty()) {
-            throw new PlaneNotDefinedException();
+        checkPlaneIsDefined();
+
+        newSpaceProbe.setPlane(planeService.getPlane().get());
+        spaceProbes.add(newSpaceProbe);
+    }
+
+    public void move(int id, String movements) {
+        checkPlaneIsDefined();
+
+        List<Movement> validMovements = new ArrayList<>();
+
+        for (String letter : movements.split("")) {
+            try {
+                validMovements.add(Movement.valueOf(letter));
+            } catch (IllegalArgumentException e) {
+                throw new InvalidMovementException(letter);
+            }
         }
 
-        newSpaceProbe.setPlane(planeOptional.get());
-        spaceProbes.add(newSpaceProbe);
+        validMovements.forEach(movement -> move(id, movement));
     }
 
     public List<SpaceProbe> findAll() {
@@ -49,11 +61,17 @@ public class SpaceProbeService {
         spaceProbes.remove(id-1);
     }
 
+    private void checkPlaneIsDefined() {
+        if (!planeService.hasPlane()) {
+            throw new PlaneNotDefinedException();
+        }
+    }
+
     private boolean isValidId(int id) {
         return id-1 < spaceProbes.size();
     }
 
-    public void move(int id, Movement movement) {
+    private void move(int id, Movement movement) {
         Optional<SpaceProbe> spaceProbeOptional = findById(id);
 
         if (spaceProbeOptional.isEmpty()) {
@@ -65,18 +83,5 @@ public class SpaceProbeService {
         spaceProbes.set(id-1, spaceProbe);
     }
 
-    public void move(int id, String movements) {
-        List<Movement> validMovements = new ArrayList<>();
 
-        String[] letters = movements.split("");
-        for (String letter : letters) {
-            try {
-                validMovements.add(Movement.valueOf(letter));
-            } catch (IllegalArgumentException e) {
-                throw new InvalidMovementException(letter);
-            }
-        }
-
-        validMovements.forEach(movement -> move(id, movement));
-    }
 }

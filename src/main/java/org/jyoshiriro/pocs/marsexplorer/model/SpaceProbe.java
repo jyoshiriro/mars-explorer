@@ -2,6 +2,7 @@ package org.jyoshiriro.pocs.marsexplorer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.jyoshiriro.pocs.marsexplorer.exception.BoundaryReachedException;
 import org.jyoshiriro.pocs.marsexplorer.exception.PlaneNotDefinedException;
 
@@ -13,10 +14,12 @@ import java.util.function.Consumer;
 public class SpaceProbe {
 
     @PositiveOrZero
+    @NotNull
     @JsonProperty("x")
     private int coordinateX;
 
     @PositiveOrZero
+    @NotNull
     @JsonProperty("y")
     private int coordinateY;
 
@@ -24,6 +27,7 @@ public class SpaceProbe {
     private Direction direction;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Hidden
     private Plane plane;
 
     @JsonIgnore
@@ -35,6 +39,15 @@ public class SpaceProbe {
                 Movement.L, p -> setDirection(getDirection().getToTheLeft()),
                 Movement.M, p -> walk()
         );
+    }
+
+    public SpaceProbe(@PositiveOrZero @NotNull int coordinateX,
+                      @PositiveOrZero @NotNull int coordinateY,
+                      @NotNull Direction direction) {
+        this();
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.direction = direction;
     }
 
     private void setDirection(Direction newDirection) {
@@ -116,48 +129,5 @@ public class SpaceProbe {
     public Plane getPlane() {
         return plane;
     }
-/*
-    @Override
-    public String toString() {
-        return "{" +
-                "x=" + coordinateX +
-                ", y=" + coordinateY +
-                ", direction=" + direction +
-                '}';
-    }
 
-    public static void main(String[] args) {
-        Plane plane = new Plane(5, 5);
-
-        SpaceProbe pos1 = new SpaceProbe(1,2, Direction.N, plane);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.L);
-        pos1.move(Movement.M);
-        pos1.move(Movement.M);
-        System.out.println(pos1);
-
-        SpaceProbe pos2 = new SpaceProbe(3,3, Direction.E, plane);
-        pos2.move(Movement.M);
-        pos2.move(Movement.M);
-        pos2.move(Movement.R);
-        pos2.move(Movement.M);
-        pos2.move(Movement.M);
-        pos2.move(Movement.R);
-        pos2.move(Movement.M);
-        pos2.move(Movement.R);
-        pos2.move(Movement.R);
-        pos2.move(Movement.M);
-        System.out.println(pos2);
-
-
-        SpaceProbe pos3 = new SpaceProbe(0,5, Direction.W, plane);
-        pos3.move(Movement.M);
-        System.out.println(pos3);
-
-    }*/
 }
