@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "765c564d-7b8e-4a31-9e30-8da63ad5d1ac",
+		"name": "Mars Explorer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Definir plano",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"width\": 5,\n    \"height\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/plane",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plane"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar Plano",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/plane",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plane"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar dimensões do plano",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"width\": 10,\n    \"height\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/plane",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plane"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar Sonda Espacial",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"x\": 1,\n    \"y\": 2,\n    \"direction\": \"N\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/probes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"probes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mover Sonda Espacial",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/probes/1/move/LMLMLMLMM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"probes",
+						"1",
+						"move",
+						"LMLMLMLMM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar uma Sonda Espacial",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"x\": 1,\n    \"y\": 2,\n    \"direction\": \"N\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/probes/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"probes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar todas as Sondas Espaciais",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"x\": 1,\n    \"y\": 2,\n    \"direction\": \"N\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/probes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"probes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir uma Sonda Espacial",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"x\": 1,\n    \"y\": 2,\n    \"direction\": \"N\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/probes/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"probes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
