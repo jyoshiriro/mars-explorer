@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 public class SpaceProbe {
 
-    @JsonIgnore
+    @NotNull
     private Coordinate coordinate;
 
     @NotNull
