@@ -23,7 +23,8 @@ public class Plane {
     }
 
     public boolean isValidCoordinate(Coordinate coordinate) {
-        return (coordinate.getX() <= width && coordinate.getY() <= height);
+        return (coordinate.getX() <= width && coordinate.getY() <= height
+                && coordinate.getX() >= 0 && coordinate.getY() >= 0);
     }
 
     public int getWidth() {

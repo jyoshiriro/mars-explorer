@@ -62,9 +62,6 @@ public class SpaceProbe {
     private void walk() {
         Coordinate nextCoordinate = coordinate.getNext(direction);
 
-        if (nextCoordinate.getY() < 0 || nextCoordinate.getX() < 0) {
-            throw new BoundaryReachedException(plane, coordinate);
-        }
         if (plane.isNotValidCoordinate(nextCoordinate)) {
             throw new BoundaryReachedException(plane, nextCoordinate);
         }
