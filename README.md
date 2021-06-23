@@ -18,8 +18,10 @@ curl --location --request POST 'http://localhost:8080/plane' \
 curl --location --request POST 'http://localhost:8080/probes' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "x": 1,
-    "y": 2,
+    "coordinate":{
+        "x": 1,
+        "y": 2
+    },
     "direction": "N"
 }'
 ```

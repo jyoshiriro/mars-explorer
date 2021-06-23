@@ -87,7 +87,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"x\": 1,\n    \"y\": 2,\n    \"direction\": \"N\"\n}",
+					"raw": "{\n    \"coordinate\":{\n        \"x\": 1,\n        \"y\": 2\n    },\n    \"direction\": \"N\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
