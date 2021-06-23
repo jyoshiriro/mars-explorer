@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.springframework.http.ResponseEntity.*;
 
+
 @RestController
 @RequestMapping("probes")
 @Tag(
@@ -45,6 +46,7 @@ public class SpaceProbeController {
         spaceProbeService.create(newSpaceProbe);
         return status(201).build();
     }
+
 
     @PostMapping("{id}/move/{movements}")
     @Operation(description = "Move a space probe on the plane. Current space probe data comes in response")

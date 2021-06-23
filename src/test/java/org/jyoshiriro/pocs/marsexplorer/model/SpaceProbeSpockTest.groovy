@@ -14,7 +14,7 @@ class SpaceProbeSpockTest extends Specification {
     @Unroll
     def 'setPlane(<plane(5,5)>) should throw BoundaryReachedException for invalid coordinate (#x, #y)'() {
         when:
-        new SpaceProbe(x, y, Direction.N).setPlane(plane5x5)
+        new SpaceProbe(new Coordinate(x, y), Direction.N).setPlane(plane5x5)
 
         then:
         thrown(BoundaryReachedException)
@@ -28,11 +28,11 @@ class SpaceProbeSpockTest extends Specification {
 
     def 'move() should throw BoundaryReachedException for invalid coordinate'() {
         given:
-        def spaceProbeLowerLimit = new SpaceProbe(0, 0, Direction.W)
+        def spaceProbeLowerLimit = new SpaceProbe(new Coordinate(0, 0), Direction.W)
         spaceProbeLowerLimit.setPlane(plane5x5)
 
         and:
-        def spaceProbeGreatestLimit = new SpaceProbe(5, 5, Direction.N)
+        def spaceProbeGreatestLimit = new SpaceProbe(new Coordinate(5, 5), Direction.N)
         spaceProbeGreatestLimit.setPlane(plane5x5)
 
         when:
@@ -65,7 +65,7 @@ class SpaceProbeSpockTest extends Specification {
     @Unroll
     def 'setPlane(<plane(5,5)>) should work for the valid coordinate (#x, #y)'() {
         expect:
-        new SpaceProbe(x, y, Direction.N).setPlane(plane5x5)
+        new SpaceProbe(new Coordinate(x, y), Direction.N).setPlane(plane5x5)
 
         where:
         x                       | y
@@ -78,7 +78,7 @@ class SpaceProbeSpockTest extends Specification {
     @Unroll
     def 'move(#movement) should throw PlaneNotDefinedException if there is no Plane'() {
         when:
-        new SpaceProbe(2, 2, Direction.N).move(movement)
+        new SpaceProbe(new Coordinate(2, 2), Direction.N).move(movement)
 
         then:
         thrown(PlaneNotDefinedException)
@@ -90,7 +90,7 @@ class SpaceProbeSpockTest extends Specification {
     @Unroll
     def 'move(#direction) should turn Right correctly to #direction.toTheRight'() {
         given:
-        def spaceProbe = new SpaceProbe(2, 2, direction)
+        def spaceProbe = new SpaceProbe(new Coordinate(2, 2), direction)
         spaceProbe.setPlane(plane5x5)
 
         when:
@@ -106,7 +106,7 @@ class SpaceProbeSpockTest extends Specification {
     @Unroll
     def 'move(#direction) should turn Left correctly to #direction.toTheLeft'() {
         given:
-        def spaceProbe = new SpaceProbe(2, 2, direction)
+        def spaceProbe = new SpaceProbe(new Coordinate(2, 2), direction)
         spaceProbe.setPlane(plane5x5)
 
         when:
@@ -122,7 +122,7 @@ class SpaceProbeSpockTest extends Specification {
     @Unroll
     def 'move(M) from #direction should keep direction'() {
         given:
-        def spaceProbe = new SpaceProbe(2, 2, direction)
+        def spaceProbe = new SpaceProbe(new Coordinate(2, 2), direction)
         spaceProbe.setPlane(plane5x5)
 
         when:
@@ -137,7 +137,7 @@ class SpaceProbeSpockTest extends Specification {
 
     def 'Space probe starting from 1,2 N on a 5x5 plane after LMLMLMLMM should stop at 1,3 N'() {
         given:
-        def spaceProbe = new SpaceProbe(1, 2, Direction.N)
+        def spaceProbe = new SpaceProbe(new Coordinate(1, 2), Direction.N)
         spaceProbe.setPlane(plane5x5)
 
         when:
@@ -145,8 +145,8 @@ class SpaceProbeSpockTest extends Specification {
         spaceProbe.move(Movement.M);
 
         then:
-        spaceProbe.getCoordinateX() == 0
-        spaceProbe.getCoordinateY() == 2
+        spaceProbe.getCoordinate().getX() == 0
+        spaceProbe.getCoordinate().getY() == 2
         spaceProbe.getDirection() == Direction.W
 
         when:
@@ -154,8 +154,8 @@ class SpaceProbeSpockTest extends Specification {
         spaceProbe.move(Movement.M);
 
         then:
-        spaceProbe.getCoordinateX() == 0
-        spaceProbe.getCoordinateY() == 1
+        spaceProbe.getCoordinate().getX() == 0
+        spaceProbe.getCoordinate().getY() == 1
         spaceProbe.getDirection() == Direction.S
 
         when:
@@ -163,8 +163,8 @@ class SpaceProbeSpockTest extends Specification {
         spaceProbe.move(Movement.M);
 
         then:
-        spaceProbe.getCoordinateX() == 1
-        spaceProbe.getCoordinateY() == 1
+        spaceProbe.getCoordinate().getX() == 1
+        spaceProbe.getCoordinate().getY() == 1
         spaceProbe.getDirection() == Direction.E
 
         when:
@@ -172,38 +172,38 @@ class SpaceProbeSpockTest extends Specification {
         spaceProbe.move(Movement.M);
 
         then:
-        spaceProbe.getCoordinateX() == 1
-        spaceProbe.getCoordinateY() == 2
+        spaceProbe.getCoordinate().getX() == 1
+        spaceProbe.getCoordinate().getY() == 2
         spaceProbe.getDirection() == Direction.N
 
         when:
         spaceProbe.move(Movement.M);
 
         then:
-        spaceProbe.getCoordinateX() == 1
-        spaceProbe.getCoordinateY() == 3
+        spaceProbe.getCoordinate().getX() == 1
+        spaceProbe.getCoordinate().getY() == 3
         spaceProbe.getDirection() == Direction.N
     }
     
     def 'Space probe starting from 3,3 E on a 5x5 plane after MMRMMRMRRM should stop at 5,1 E'() {
         given:
-        def spaceProbe = new SpaceProbe(3, 3, Direction.E);
+        def spaceProbe = new SpaceProbe(new Coordinate(3, 3), Direction.E);
         spaceProbe.setPlane(plane5x5);
 
         when:
         spaceProbe.move(Movement.M);
 
         then:
-        spaceProbe.getCoordinateX() == 4
-        spaceProbe.getCoordinateY() == 3
+        spaceProbe.getCoordinate().getX() == 4
+        spaceProbe.getCoordinate().getY() == 3
         spaceProbe.getDirection() == Direction.E
 
         when:
         spaceProbe.move(Movement.M)
 
         then:
-        spaceProbe.getCoordinateX() == 5
-        spaceProbe.getCoordinateY() == 3
+        spaceProbe.getCoordinate().getX() == 5
+        spaceProbe.getCoordinate().getY() == 3
         spaceProbe.getDirection() == Direction.E
 
         when:
@@ -211,16 +211,16 @@ class SpaceProbeSpockTest extends Specification {
         spaceProbe.move(Movement.M)
 
         then:
-        spaceProbe.getCoordinateX() == 5
-        spaceProbe.getCoordinateY() == 2
+        spaceProbe.getCoordinate().getX() == 5
+        spaceProbe.getCoordinate().getY() == 2
         spaceProbe.getDirection() == Direction.S
 
         when:
         spaceProbe.move(Movement.M)
 
         then:
-        spaceProbe.getCoordinateX() == 5
-        spaceProbe.getCoordinateY() == 1
+        spaceProbe.getCoordinate().getX() == 5
+        spaceProbe.getCoordinate().getY() == 1
         spaceProbe.getDirection() == Direction.S
 
         when:
@@ -228,8 +228,8 @@ class SpaceProbeSpockTest extends Specification {
         spaceProbe.move(Movement.M)
 
         then:
-        spaceProbe.getCoordinateX() == 4
-        spaceProbe.getCoordinateY() == 1
+        spaceProbe.getCoordinate().getX() == 4
+        spaceProbe.getCoordinate().getY() == 1
         spaceProbe.getDirection() == Direction.W
 
         when:
@@ -238,8 +238,8 @@ class SpaceProbeSpockTest extends Specification {
         spaceProbe.move(Movement.M)
         
         then:
-        spaceProbe.getCoordinateX() == 5
-        spaceProbe.getCoordinateY() == 1
+        spaceProbe.getCoordinate().getX() == 5
+        spaceProbe.getCoordinate().getY() == 1
         spaceProbe.getDirection() == Direction.E
     }
 

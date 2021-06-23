@@ -7,21 +7,13 @@ import org.jyoshiriro.pocs.marsexplorer.exception.BoundaryReachedException;
 import org.jyoshiriro.pocs.marsexplorer.exception.PlaneNotDefinedException;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class SpaceProbe {
 
-    @PositiveOrZero
-    @NotNull
-    @JsonProperty("x")
-    private int coordinateX;
-
-    @PositiveOrZero
-    @NotNull
-    @JsonProperty("y")
-    private int coordinateY;
+    @JsonIgnore
+    private Coordinate coordinate;
 
     @NotNull
     private Direction direction;
@@ -41,12 +33,10 @@ public class SpaceProbe {
         );
     }
 
-    public SpaceProbe(@PositiveOrZero @NotNull int coordinateX,
-                      @PositiveOrZero @NotNull int coordinateY,
+    public SpaceProbe(@NotNull Coordinate coordinate,
                       @NotNull Direction direction) {
         this();
-        this.coordinateX = coordinateX;
-        this.coordinateY = coordinateY;
+        this.coordinate = coordinate;
         this.direction = direction;
     }
 
@@ -62,64 +52,32 @@ public class SpaceProbe {
     }
 
     public void setPlane(Plane plane) {
-        if (coordinateX > plane.getWidth() || coordinateY > plane.getHeight()) {
-            throw new BoundaryReachedException(plane, coordinateX, coordinateY);
+        if (plane.isNotValidCoordinate(coordinate)) {
+            throw new BoundaryReachedException(plane, coordinate);
         }
 
         this.plane = plane;
     }
 
     private void walk() {
-        coordinateX += getActualXIncrease();
-        coordinateY += getActualYIncreasing();
-    }
+        Coordinate nextCoordinate = coordinate.getNext(direction);
 
-    private int getActualXIncrease() {
-        int increase = direction.getIncreaseX();
-
-        if (increase == 0) {
-            return 0;
-        } else if (increase < 0) {
-            return getActualDecrease(coordinateX, increase);
-        } else if (increase + coordinateX <= plane.getWidth()) {
-            return increase;
+        if (nextCoordinate.getY() < 0 || nextCoordinate.getX() < 0) {
+            throw new BoundaryReachedException(plane, coordinate);
+        }
+        if (plane.isNotValidCoordinate(nextCoordinate)) {
+            throw new BoundaryReachedException(plane, nextCoordinate);
         }
 
-        throw newLocalBoundaryReachedException();
+        coordinate = nextCoordinate;
     }
 
-    private int getActualYIncreasing() {
-        int increasing = direction.getIncreaseY();
-
-        if (increasing == 0) {
-            return 0;
-        } else if (increasing < 0) {
-            return getActualDecrease(coordinateY, increasing);
-        } else if (increasing + coordinateY <= plane.getHeight()) {
-            return increasing;
-        }
-
-        throw newLocalBoundaryReachedException();
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
-    private int getActualDecrease(int currentValue, int decreasing) {
-        if (currentValue == 0 && decreasing < 0) {
-            throw newLocalBoundaryReachedException();
-        }
-        return decreasing;
-    }
-
-    private BoundaryReachedException newLocalBoundaryReachedException() {
-        return new BoundaryReachedException(
-                plane, coordinateX + direction.getIncreaseX(), coordinateY + direction.getIncreaseY());
-    }
-
-    public int getCoordinateX() {
-        return coordinateX;
-    }
-
-    public int getCoordinateY() {
-        return coordinateY;
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     public Direction getDirection() {

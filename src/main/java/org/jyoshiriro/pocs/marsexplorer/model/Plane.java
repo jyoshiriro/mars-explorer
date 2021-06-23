@@ -18,6 +18,14 @@ public class Plane {
         this.height = height;
     }
 
+    public boolean isNotValidCoordinate(Coordinate coordinate) {
+        return !isValidCoordinate(coordinate);
+    }
+
+    public boolean isValidCoordinate(Coordinate coordinate) {
+        return (coordinate.getX() <= width && coordinate.getY() <= height);
+    }
+
     public int getWidth() {
         return width;
     }
